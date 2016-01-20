@@ -26,8 +26,8 @@ physically unplug and plug it back in.
 ```
 
 ```
-Device already detached
-Device already detached
+WARN: Device already detached
+WARN: Device already detached
 Time [s]        Internal [°C]   External [°C]
 1453332865             +33.44          +15.75
 1453332875             +33.44          +15.81

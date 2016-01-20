@@ -70,11 +70,11 @@ Temper * TemperCreate (struct usb_device *device, int timeout)
 	{
 		if (errno == ENODATA)
 		{
-			fprintf(stderr, "Device already detached\n");
+			fprintf(stderr, "WARN: Device already detached\n");
 		}
 		else
 		{
-			fprintf(stderr, "Detach failed: %s[%d]\n",
+			fprintf(stderr, "WARN: Detach failed: %s[%d]\n",
 				strerror(errno), errno);
 		}
 	}
@@ -83,11 +83,11 @@ Temper * TemperCreate (struct usb_device *device, int timeout)
 	{
 		if (errno == ENODATA)
 		{
-			fprintf(stderr, "Device already detached\n");
+			fprintf(stderr, "WARN: Device already detached\n");
 		}
 		else
 		{
-			fprintf(stderr, "Detach failed: %s[%d]\n",
+			fprintf(stderr, "WARN: Detach failed: %s[%d]\n",
 				strerror(errno), errno);
 		}
 	}
@@ -151,7 +151,7 @@ void parse (const char *nptr, bool *tgt_has_been_set, unsigned int *tgt_num)
 {
 	if (*tgt_has_been_set)
 	{
-		fprintf(stderr, "Duplicate argument provided.\n");
+		fprintf(stderr, "ERR: Duplicate argument provided.\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -161,7 +161,7 @@ void parse (const char *nptr, bool *tgt_has_been_set, unsigned int *tgt_num)
 	if (errno == ERANGE || ret < 0 || ret > UINT_MAX ||
 		endptr == nptr || *endptr != '\0')
 	{
-		fprintf(stderr, "Invalid value.\n");
+		fprintf(stderr, "ERR: Invalid value.\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -181,7 +181,7 @@ int main(int argc, char **argv)
 	{
 		if (i == (argc - 1))
 		{
-			fprintf(stderr, "Option requires an argument.\n");
+			fprintf(stderr, "ERR: Option requires an argument.\n");
 			return EXIT_FAILURE;
 		}
 
@@ -195,7 +195,7 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			fprintf(stderr, "Invalid argument provided.\n");
+			fprintf(stderr, "ERR: Invalid argument provided.\n");
 			return EXIT_FAILURE;
 		}
 	}
