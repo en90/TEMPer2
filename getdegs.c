@@ -29,6 +29,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <time.h>
 
 struct TemperData {
 	float value;
@@ -218,7 +219,7 @@ int main(int argc, char **argv)
 
 	unsigned char buf[8];
 	TemperData data[2];
-	fprintf(stderr, "Internal [°C]\tExternal [°C]\n");
+	fprintf(stderr, "Time [s]\tInternal [°C]\tExternal [°C]\n");
 	// XXX: Feels a bit stupid to check user_set_iterations each iteration.
 	for (int i = 0 ; !(user_set_iterations && i == n) ; i++)
 	{
@@ -247,7 +248,8 @@ int main(int argc, char **argv)
 			data[j].unit = TEMPER_ABS_TEMP;
 		}
 
-		printf("%+13.2f\t%+13.2f\n", data[0].value, data[1].value);
+		printf("%ju\t%+13.2f\t%+13.2f\n", (uintmax_t) time(NULL),
+			data[0].value, data[1].value);
 
 		if (!(user_set_iterations && i == (n - 1)))
 		{
