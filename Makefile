@@ -18,4 +18,4 @@ clean:
 	rm -f getdegs *.o
 
 rules-install:			# must be superuser to do this
-	cp 99-TEMPer2.rules /etc/udev/rules.d
+	cp 99-TEMPer2.rules /etc/udev/rules.d/
