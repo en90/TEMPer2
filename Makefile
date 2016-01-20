@@ -8,7 +8,7 @@ LDFLAGS:=-L extra/lib
 
 all:	getdegs
 
-%.o:	%.c %.h
+%.o:	%.c
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 getdegs:	getdegs.o
