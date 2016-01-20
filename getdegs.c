@@ -147,6 +147,33 @@ void TemperFree (Temper *t)
 
 int main(int argc, char **argv)
 {
+	/* time to sleep in seconds between measurments. */
+	long int sleep_secs = 1;
+
+	errno = 0;
+	for (int i = 1 ; i < argc ; i += 2)
+	{
+		if (i == (argc - 1))
+		{
+			fprintf(stderr, "Option requires an argument.\n");
+			return EXIT_FAILURE;
+		}
+
+		if (strcmp(argv[i], "--sleep") == 0)
+		{
+			char *endptr;
+			sleep_secs = strtol(argv[i + 1], &endptr, 10);
+
+			if (errno == ERANGE ||
+				sleep_secs < 0 || sleep_secs > UINT_MAX ||
+				endptr == argv[i + 1] || *endptr != '\0')
+			{
+				fprintf(stderr, "Invalid value.\n");
+				return EXIT_FAILURE;
+			}
+		}
+	}
+
 	Temper *t;
 
 	usb_init();
@@ -195,7 +222,8 @@ int main(int argc, char **argv)
 		}
 
 		printf("%+13.2f\t%+13.2f\n", data[0].value, data[1].value);
-		sleep(1);
+
+		sleep(sleep_secs);
 	}
 
 	return EXIT_SUCCESS;
