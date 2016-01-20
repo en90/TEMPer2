@@ -3,7 +3,7 @@
 GNU/Linux utility for reading temperature measurments
 using RDing TEMPer2 USB device.
 
-## Building `getdegs` and configuring USB rules for TEMPer2
+## Building `getdegs` and add udev rule for TEMPer2
 
 ```bash
 make && \
