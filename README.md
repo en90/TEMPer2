@@ -16,5 +16,5 @@ physically unplug and plug it back in.
 ## Usage
 
 ```bash
-./getdegs
+./getdegs [-n <count>] [--sleep <num>]
 ```
