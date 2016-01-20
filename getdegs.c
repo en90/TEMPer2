@@ -146,10 +146,33 @@ void TemperFree (Temper *t)
 }
 */
 
+void parse (const char *nptr, bool *tgt_has_been_set, unsigned int *tgt_num)
+{
+	if (*tgt_has_been_set)
+	{
+		fprintf(stderr, "Duplicate argument provided.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	char *endptr;
+	long int ret = strtol(nptr, &endptr, 10);
+
+	if (errno == ERANGE || ret < 0 || ret > UINT_MAX ||
+		endptr == nptr || *endptr != '\0')
+	{
+		fprintf(stderr, "Invalid value.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	*tgt_num = (unsigned int) ret;
+	*tgt_has_been_set = true;
+}
+
 int main(int argc, char **argv)
 {
-	bool user_set_sleep_secs = false;
+	bool user_set_sleep_secs, user_set_iterations = false;
 	unsigned int sleep_secs = 1;
+	unsigned int n = 0;
 
 	errno = 0;
 	for (int i = 1 ; i < argc ; i += 2)
@@ -162,26 +185,16 @@ int main(int argc, char **argv)
 
 		if (strcmp(argv[i], "--sleep") == 0)
 		{
-			if (user_set_sleep_secs)
-			{
-				fprintf(stderr,
-					"Duplicate argument provided.\n");
-				return EXIT_FAILURE;
-			}
-
-			char *endptr;
-			long int ret = strtol(argv[i + 1], &endptr, 10);
-
-			if (errno == ERANGE ||
-				sleep_secs < 0 || sleep_secs > UINT_MAX ||
-				endptr == argv[i + 1] || *endptr != '\0')
-			{
-				fprintf(stderr, "Invalid value.\n");
-				return EXIT_FAILURE;
-			}
-
-			sleep_secs = (unsigned int) ret;
-			user_set_sleep_secs = true;
+			parse(argv[i + 1], &user_set_sleep_secs, &sleep_secs);
+		}
+		else if (strcmp(argv[i], "-n") == 0)
+		{
+			parse(argv[i + 1], &user_set_iterations, &n);
+		}
+		else
+		{
+			fprintf(stderr, "Invalid argument provided.\n");
+			return EXIT_FAILURE;
 		}
 	}
 
@@ -205,7 +218,8 @@ int main(int argc, char **argv)
 	unsigned char buf[8];
 	TemperData data[2];
 	fprintf(stderr, "Internal [°C]\tExternal [°C]\n");
-	for (;;)
+	// XXX: Feels a bit stupid to check user_set_iterations each iteration.
+	for (int i = 0 ; !(user_set_iterations && i == n) ; i++)
 	{
 		int ret_cmd = usb_control_msg(t->handle, 0x21, 9, 0x200, 0x01,
 			(char *) cmd, sizeof(cmd), t->timeout);
@@ -225,16 +239,19 @@ int main(int argc, char **argv)
 			return EXIT_FAILURE;
 		}
 
-		for(int i = 0; i < 2; ++i)
+		for(int j = 0 ; j < 2 ; j++)
 		{
-			int16_t word = ((int8_t)buf[2*i+2] << 8) | buf[2*i+3];
-			data[i].value = ((float)word) * (125.0 / 32000.0);
-			data[i].unit = TEMPER_ABS_TEMP;
+			int16_t word = ((int8_t)buf[2*j+2] << 8) | buf[2*j+3];
+			data[j].value = ((float)word) * (125.0 / 32000.0);
+			data[j].unit = TEMPER_ABS_TEMP;
 		}
 
 		printf("%+13.2f\t%+13.2f\n", data[0].value, data[1].value);
 
-		sleep(sleep_secs);
+		if (!(user_set_iterations && i == (n - 1)))
+		{
+			sleep(sleep_secs);
+		}
 	}
 
 	return EXIT_SUCCESS;
