@@ -170,7 +170,8 @@ void parse (const char *nptr, bool *tgt_has_been_set, unsigned int *tgt_num)
 
 int main(int argc, char **argv)
 {
-	bool user_set_sleep_secs, user_set_iterations = false;
+	bool user_set_sleep_secs = false;
+	bool user_set_iterations = false;
 	unsigned int sleep_secs = 1;
 	unsigned int n = 0;
 
