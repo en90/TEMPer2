@@ -1,7 +1,4 @@
-TEMPer2
-=======
+# getdegs
 
-Userspace driver (aka library :) to use the TEMPer2 USB temperature sensor with Linux
-
-Based on work by Robert Kavaler (c) 2009 (relavak.com)
-http://relavak.wordpress.com/2009/10/17/temper-temperature-sensor-linux-driver/
+GNU/Linux utility for reading temperature measurments
+using RDing TEMPer2 USB device.

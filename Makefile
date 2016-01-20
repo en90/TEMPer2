@@ -1,23 +1,21 @@
 HOSTCC:=$(CC)
 CC:=$(CROSS_COMPILE)$(HOSTCC)
-CFLAGS:=-std=c99 -Wall -O2 $(CFLAGS) -I extra/include
+CFLAGS:=-std=c11 -Wall -O2 $(CFLAGS)
 
 HOSTLD:=$(LD)
 LD:=$(CROSS_COMPILE)$(HOSTLD)
 LDFLAGS:=-L extra/lib
 
-TEMPER_OBJS:=comm.o
+all:	getdegs
 
-all:	temper
+%.o:	%.c %.h
+	$(CC) -c $(CFLAGS) -o $@ $<
 
-%.o:	%.c
-	$(CC) -c $(CFLAGS) -DUNIT_TEST -o $@ $^
-
-temper:		$(TEMPER_OBJS) temper.o
+getdegs:	getdegs.o
 	$(CC) $(LDFLAGS) -o $@ $^ -lusb
 
 clean:		
-	rm -f temper *.o
+	rm -f getdegs *.o
 
 rules-install:			# must be superuser to do this
 	cp 99-tempsensor.rules /etc/udev/rules.d
