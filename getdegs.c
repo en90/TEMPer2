@@ -148,7 +148,7 @@ void TemperFree (Temper *t)
 int main(int argc, char **argv)
 {
 	/* time to sleep in seconds between measurments. */
-	long int sleep_secs = 1;
+	unsigned int sleep_secs = 1;
 
 	errno = 0;
 	for (int i = 1 ; i < argc ; i += 2)
@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 		if (strcmp(argv[i], "--sleep") == 0)
 		{
 			char *endptr;
-			sleep_secs = strtol(argv[i + 1], &endptr, 10);
+			long int ret = strtol(argv[i + 1], &endptr, 10);
 
 			if (errno == ERANGE ||
 				sleep_secs < 0 || sleep_secs > UINT_MAX ||
@@ -171,6 +171,8 @@ int main(int argc, char **argv)
 				fprintf(stderr, "Invalid value.\n");
 				return EXIT_FAILURE;
 			}
+
+			sleep_secs = (unsigned int) ret;
 		}
 	}
 
