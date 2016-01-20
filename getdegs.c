@@ -28,6 +28,7 @@
 #include <usb.h>
 #include <errno.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 struct TemperData {
 	float value;
@@ -147,7 +148,7 @@ void TemperFree (Temper *t)
 
 int main(int argc, char **argv)
 {
-	/* time to sleep in seconds between measurments. */
+	bool user_set_sleep_secs = false;
 	unsigned int sleep_secs = 1;
 
 	errno = 0;
@@ -161,6 +162,13 @@ int main(int argc, char **argv)
 
 		if (strcmp(argv[i], "--sleep") == 0)
 		{
+			if (user_set_sleep_secs)
+			{
+				fprintf(stderr,
+					"Duplicate argument provided.\n");
+				return EXIT_FAILURE;
+			}
+
 			char *endptr;
 			long int ret = strtol(argv[i + 1], &endptr, 10);
 
@@ -173,6 +181,7 @@ int main(int argc, char **argv)
 			}
 
 			sleep_secs = (unsigned int) ret;
+			user_set_sleep_secs = true;
 		}
 	}
 
