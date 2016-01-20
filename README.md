@@ -28,10 +28,10 @@ physically unplug and plug it back in.
 ```
 Device already detached
 Device already detached
-Time [s]	Internal [°C]	External [°C]
-1453332865	       +33.44	       +15.75
-1453332875	       +33.44	       +15.81
-1453332885	       +33.38	       +15.75
-1453332895	       +33.31	       +15.75
-1453332905	       +33.31	       +15.75
+Time [s]        Internal [°C]   External [°C]
+1453332865             +33.44          +15.75
+1453332875             +33.44          +15.81
+1453332885             +33.38          +15.75
+1453332895             +33.31          +15.75
+1453332905             +33.31          +15.75
 ```
