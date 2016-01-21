@@ -19,6 +19,24 @@ physically unplug and plug it back in.
 ./getdegs [-n <count>] [--sleep <num>]
 ```
 
+### Output
+
+#### stderr
+
+Outputs warnings and error messages to stderr.
+All warnings and error messages contain at least one colon character.
+As long as you are using UTF-8, the byte value of the colon character is 0x3a.
+
+Outputs header to stderr exactly once. Header does not contain any colons.
+Header includes non-ASCII characters. As long as you're using UTF-8,
+no 0x3a-bytes will occur in the header.
+
+#### stdout
+
+Outputs timestamped measurments to stdout.
+Output is tab-delimited with additional leading space characters (0x20)
+for right-alignment of numbers.
+
 ### Example
 
 ```bash
