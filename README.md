@@ -61,5 +61,5 @@ Time [s]                Internal [°C]   External [°C]
          1453332905            +33.31          +15.75
 ```
 
-(Tabs have been substituted by spaces in the README
+(Tabs have been substituted with spaces in the README
 for the sake of it looking correctly in web browsers.)
