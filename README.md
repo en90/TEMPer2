@@ -32,7 +32,7 @@ with regards to distinguishing between header and other messages.
 #### stderr
 
 * Outputs warnings and error messages to stderr.
-  All warnings and error messages contain at least one colon character.
+  All warnings and error messages contain at least one colon character (0x3a).
 
 * Outputs header to stderr exactly once. Header does not contain any colons.
   Header includes non-ASCII characters. No 0x3a-bytes will occur in the header.
