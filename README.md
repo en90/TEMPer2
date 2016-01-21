@@ -41,7 +41,8 @@ with regards to distinguishing between header and other messages.
 
 * Outputs timestamped measurments to stdout. Output is
   tab-delimited (0x09) with additional leading space characters (0x20)
-  for right-alignment of numbers.
+  for right-alignment of numbers. According to the labeling of my TEMPer2,
+  temperatures are measured within the range of -40 °C to +120 °C.
 
 ### Example
 
