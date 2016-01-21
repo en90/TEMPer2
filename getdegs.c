@@ -250,6 +250,7 @@ int main(int argc, char **argv)
 
 		printf("%19ju\t%+13.2f\t%+13.2f\n", (uintmax_t) time(NULL),
 			data[0].value, data[1].value);
+		fflush(stdout);
 
 		if (!(user_set_iterations && i == (n - 1)))
 		{
